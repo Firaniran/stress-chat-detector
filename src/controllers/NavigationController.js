@@ -8,6 +8,7 @@ export class NavigationController {
         this.navMenu = null;
         this.hamburger = null;
         this.isNavigating = false;
+        this.isMobileMenuOpen = false;
     }
 
     init() {
@@ -51,26 +52,103 @@ export class NavigationController {
             }
         });
 
-        // Handle hamburger menu
-        this.hamburger = document.getElementById('hamburger');
-        this.navMenu = document.getElementById('navMenu');
-        
-        if (this.hamburger) {
-            this.hamburger.addEventListener('click', () => this.toggleMobileMenu());
+        // Setup hamburger menu - wait for DOM to be ready
+        document.addEventListener('DOMContentLoaded', () => {
+            this.initHamburgerMenu();
+        });
+
+        // If DOM is already loaded
+        if (document.readyState !== 'loading') {
+            setTimeout(() => this.initHamburgerMenu(), 100);
         }
 
         // Handle page rendered event
         document.addEventListener('pageRendered', (e) => {
             console.log(`Page rendered successfully: ${e.detail.page}`);
             this.onPageRendered(e.detail.page, e.detail.view);
+            // Re-initialize hamburger after page render
+            setTimeout(() => this.initHamburgerMenu(), 100);
         });
+    }
+
+    initHamburgerMenu() {
+        console.log('Initializing hamburger menu...');
+        
+        this.hamburger = document.getElementById('hamburger');
+        this.navMenu = document.getElementById('navMenu');
+        
+        console.log('Hamburger element:', this.hamburger);
+        console.log('NavMenu element:', this.navMenu);
+        
+        if (this.hamburger && this.navMenu) {
+            // Remove existing event listeners
+            this.hamburger.removeEventListener('click', this.handleHamburgerClick);
+            
+            // Add click event listener
+            this.hamburger.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Hamburger clicked!');
+                this.toggleMobileMenu();
+            });
+            
+            // Set up mobile menu styles
+            this.setupMobileMenuStyles();
+            
+            console.log('Hamburger menu initialized successfully');
+        } else {
+            console.error('Hamburger or NavMenu not found!');
+        }
+    }
+
+    setupMobileMenuStyles() {
+        if (!this.navMenu) return;
+        
+        // Apply mobile styles directly via JavaScript
+        if (window.innerWidth <= 968) {
+            this.navMenu.style.position = 'fixed';
+            this.navMenu.style.top = '0';
+            this.navMenu.style.left = '-100%';
+            this.navMenu.style.width = '80%';
+            this.navMenu.style.height = '100vh';
+            this.navMenu.style.backgroundColor = '#fff';
+            this.navMenu.style.flexDirection = 'column';
+            this.navMenu.style.padding = '70px 20px 20px';
+            this.navMenu.style.boxShadow = '2px 0 10px rgba(0,0,0,0.1)';
+            this.navMenu.style.zIndex = '1000';
+            this.navMenu.style.transition = 'left 0.3s ease';
+            this.navMenu.style.display = 'flex';
+            
+            console.log('Mobile menu styles applied');
+        }
     }
 
     setupResponsiveHandling() {
         window.addEventListener('resize', () => {
             if (window.innerWidth > 968) {
-                if (this.navMenu) this.navMenu.classList.remove('active');
-                if (this.hamburger) this.hamburger.classList.remove('active');
+                // Desktop view - reset styles
+                if (this.navMenu) {
+                    this.navMenu.style.position = '';
+                    this.navMenu.style.top = '';
+                    this.navMenu.style.left = '';
+                    this.navMenu.style.width = '';
+                    this.navMenu.style.height = '';
+                    this.navMenu.style.backgroundColor = '';
+                    this.navMenu.style.flexDirection = '';
+                    this.navMenu.style.padding = '';
+                    this.navMenu.style.boxShadow = '';
+                    this.navMenu.style.zIndex = '';
+                    this.navMenu.style.transition = '';
+                    this.navMenu.style.display = '';
+                    this.navMenu.classList.remove('active');
+                }
+                if (this.hamburger) {
+                    this.hamburger.classList.remove('active');
+                }
+                this.isMobileMenuOpen = false;
+            } else {
+                // Mobile view - apply mobile styles
+                this.setupMobileMenuStyles();
             }
         });
     }
@@ -83,6 +161,7 @@ export class NavigationController {
         
         try {
             this.showLoadingIndicator();
+            this.closeMobileMenu();
 
             // Add small delay for smooth transition
             await new Promise(resolve => setTimeout(resolve, 150));
@@ -90,7 +169,6 @@ export class NavigationController {
             await this.viewRenderer.renderPage(page);
             this.currentPage = page;
             this.updateNavigation(page);
-            this.closeMobileMenu();
             
             // Smooth scroll to top with slight delay
             setTimeout(() => {
@@ -191,13 +269,43 @@ export class NavigationController {
     }
 
     toggleMobileMenu() {
-        if (this.navMenu) this.navMenu.classList.toggle('active');
-        if (this.hamburger) this.hamburger.classList.toggle('active');
+        console.log('toggleMobileMenu called');
+        console.log('Current menu state:', this.isMobileMenuOpen);
+        
+        if (!this.navMenu) {
+            console.error('navMenu not found!');
+            return;
+        }
+
+        if (this.isMobileMenuOpen) {
+            // Close menu
+            console.log('Closing mobile menu');
+            this.navMenu.style.left = '-100%';
+            this.navMenu.classList.remove('active');
+            if (this.hamburger) this.hamburger.classList.remove('active');
+            this.isMobileMenuOpen = false;
+        } else {
+            // Open menu
+            console.log('Opening mobile menu');
+            this.navMenu.style.left = '0';
+            this.navMenu.classList.add('active');
+            if (this.hamburger) this.hamburger.classList.add('active');
+            this.isMobileMenuOpen = true;
+        }
+        
+        console.log('Menu state after toggle:', this.isMobileMenuOpen);
+        console.log('Menu left position:', this.navMenu.style.left);
     }
 
     closeMobileMenu() {
-        if (this.navMenu) this.navMenu.classList.remove('active');
-        if (this.hamburger) this.hamburger.classList.remove('active');
+        if (this.navMenu) {
+            this.navMenu.style.left = '-100%';
+            this.navMenu.classList.remove('active');
+        }
+        if (this.hamburger) {
+            this.hamburger.classList.remove('active');
+        }
+        this.isMobileMenuOpen = false;
     }
 
     getCurrentPage() {
