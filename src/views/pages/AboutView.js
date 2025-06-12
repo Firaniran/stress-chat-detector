@@ -44,11 +44,11 @@ export class AboutView {
                         <div class="tech-list">
                             <div class="tech-item" data-aos="slide-right" data-aos-delay="100">
                                 <strong>🧠 Natural Language Processing (NLP)</strong>
-                                <p>Teknologi canggih untuk menganalisis sentimen, emosi, dan konteks percakapan dengan tingkat akurasi tinggi dalam bahasa Indonesia dan Inggris</p>
+                                <p>Teknologi canggih untuk menganalisis sentimen, emosi, dan konteks percakapan dengan tingkat akurasi tinggi dalam bahasa Indonesia</p>
                             </div>
                             <div class="tech-item" data-aos="slide-right" data-aos-delay="200">
                                 <strong>🤖 Machine Learning</strong>
-                                <p>Model yang dilatih dengan dataset besar untuk mendeteksi indikator stress, kecemasan, dan pola komunikasi negatif dalam teks</p>
+                                <p>Model yang dilatih dengan dataset yang relevan untuk mendeteksi indikator stress, kecemasan, dan pola komunikasi negatif dalam teks</p>
                             </div>
                             <div class="tech-item" data-aos="slide-right" data-aos-delay="300">
                                 <strong>👁️ Computer Vision</strong>
