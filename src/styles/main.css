@@ -62,35 +62,82 @@ body {
     background: rgba(102, 126, 234, 0.1);
 }
 
+/* Header and Navigation Base Styles */
+.header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
 /* Hamburger Button */
 .hamburger {
     display: none;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
-    padding: 10px;
+    padding: 8px;
     z-index: 1001;
+    background: none;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.hamburger:hover {
+    background-color: rgba(0,0,0,0.05);
 }
 
 .hamburger span {
+    display: block;
     width: 25px;
     height: 3px;
     background: #333;
     margin: 3px 0;
     transition: all 0.3s ease;
     transform-origin: center;
+    border-radius: 2px;
 }
 
 /* Menu Navigasi */
 .nav-menu {
     display: flex;
     list-style: none;
+    margin: 0;
+    padding: 0;
     transition: all 0.3s ease;
 }
 
-/* Style untuk mobile */
+.nav-menu li {
+    margin: 0 1rem;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #333;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Mobile Styles */
 @media (max-width: 968px) {
     .hamburger {
-        display: flex;
+        display: flex !important;
+        order: 2;
     }
     
     .nav-menu {
@@ -98,29 +145,80 @@ body {
         top: 0;
         left: -100%;
         width: 80%;
+        max-width: 300px;
         height: 100vh;
         background: #fff;
         flex-direction: column;
-        padding: 70px 20px 20px;
+        padding: 80px 20px 20px;
         box-shadow: 2px 0 10px rgba(0,0,0,0.1);
         z-index: 1000;
+        transition: left 0.3s ease;
+        overflow-y: auto;
     }
     
     .nav-menu.active {
         left: 0;
     }
     
-    /* Animasi hamburger saat aktif */
+    .nav-menu li {
+        margin: 0.5rem 0;
+        width: 100%;
+    }
+    
+    .nav-link {
+        padding: 1rem;
+        border-bottom: 1px solid #f0f0f0;
+        width: 100%;
+        text-align: left;
+    }
+    
+    /* Hamburger Animation */
     .hamburger.active span:nth-child(1) {
-        transform: translateY(8px) rotate(45deg);
+        transform: translateY(9px) rotate(45deg);
     }
     
     .hamburger.active span:nth-child(2) {
         opacity: 0;
+        transform: translateX(-20px);
     }
     
     .hamburger.active span:nth-child(3) {
-        transform: translateY(-8px) rotate(-45deg);
+        transform: translateY(-9px) rotate(-45deg);
+    }
+    
+    /* Overlay for mobile menu */
+    .nav-menu.active::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 100%;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.5);
+        z-index: -1;
+    }
+}
+
+/* Ensure hamburger is visible on small screens */
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex !important;
+    }
+    
+    .nav-menu {
+        width: 85%;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+    .header {
+        padding: 1rem;
+    }
+    
+    .nav-menu {
+        width: 90%;
+        padding: 70px 15px 15px;
     }
 }
 

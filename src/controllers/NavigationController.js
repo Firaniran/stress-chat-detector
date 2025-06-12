@@ -9,6 +9,7 @@ export class NavigationController {
         this.hamburger = null;
         this.isNavigating = false;
         this.isMobileMenuOpen = false;
+        this.hamburgerInitialized = false;
     }
 
     init() {
@@ -66,91 +67,142 @@ export class NavigationController {
         document.addEventListener('pageRendered', (e) => {
             console.log(`Page rendered successfully: ${e.detail.page}`);
             this.onPageRendered(e.detail.page, e.detail.view);
-            // Re-initialize hamburger after page render
+            // Re-initialize hamburger menu setelah page render
             setTimeout(() => this.initHamburgerMenu(), 100);
+        });
+
+        // Handle clicks outside mobile menu to close it
+        document.addEventListener('click', (e) => {
+            if (this.isMobileMenuOpen && 
+                !this.navMenu.contains(e.target) && 
+                !this.hamburger.contains(e.target)) {
+                this.closeMobileMenu();
+            }
         });
     }
 
     initHamburgerMenu() {
         console.log('Initializing hamburger menu...');
         
-        this.hamburger = document.getElementById('hamburger');
-        this.navMenu = document.getElementById('navMenu');
+        this.hamburger = document.querySelector('.hamburger') || document.getElementById('hamburger');
+        this.navMenu = document.querySelector('.nav-menu') || document.getElementById('navMenu');
         
         console.log('Hamburger element:', this.hamburger);
         console.log('NavMenu element:', this.navMenu);
         
         if (this.hamburger && this.navMenu) {
-            // Remove existing event listeners
-            this.hamburger.removeEventListener('click', this.handleHamburgerClick);
+            // Remove existing event listeners to prevent duplicates
+            if (this.handleHamburgerClick) {
+                this.hamburger.removeEventListener('click', this.handleHamburgerClick);
+            }
+            
+            // Create bound function
+            this.handleHamburgerClick = this.handleHamburgerClick.bind(this);
             
             // Add click event listener
-            this.hamburger.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('Hamburger clicked!');
-                this.toggleMobileMenu();
-            });
+            this.hamburger.addEventListener('click', this.handleHamburgerClick);
             
-            // Set up mobile menu styles
+            // Ensure hamburger is visible on mobile
+            this.ensureHamburgerVisibility();
+            
+            // Setup mobile menu styles
             this.setupMobileMenuStyles();
+            
+            // Mark as initialized
+            this.hamburgerInitialized = true;
             
             console.log('Hamburger menu initialized successfully');
         } else {
             console.error('Hamburger or NavMenu not found!');
+            console.log('Available elements with .hamburger class:', document.querySelectorAll('.hamburger'));
+            console.log('Available elements with .nav-menu class:', document.querySelectorAll('.nav-menu'));
+        }
+    }
+
+    ensureHamburgerVisibility() {
+        if (!this.hamburger) return;
+        
+        // Force display the hamburger on mobile
+        if (window.innerWidth <= 968) {
+            this.hamburger.style.display = 'flex';
+            this.hamburger.style.position = 'relative';
+            this.hamburger.style.zIndex = '1001';
+            
+            console.log('Hamburger visibility ensured for mobile');
+            console.log('Hamburger computed style:', window.getComputedStyle(this.hamburger).display);
         }
     }
 
     setupMobileMenuStyles() {
         if (!this.navMenu) return;
         
-        // Apply mobile styles directly via JavaScript
+        // Apply mobile styles only on mobile screens
         if (window.innerWidth <= 968) {
+            // Reset any previous styles
             this.navMenu.style.position = 'fixed';
             this.navMenu.style.top = '0';
-            this.navMenu.style.left = '-100%';
+            this.navMenu.style.left = this.isMobileMenuOpen ? '0' : '-100%';
             this.navMenu.style.width = '80%';
             this.navMenu.style.height = '100vh';
             this.navMenu.style.backgroundColor = '#fff';
+            this.navMenu.style.display = 'flex';
             this.navMenu.style.flexDirection = 'column';
             this.navMenu.style.padding = '70px 20px 20px';
             this.navMenu.style.boxShadow = '2px 0 10px rgba(0,0,0,0.1)';
             this.navMenu.style.zIndex = '1000';
             this.navMenu.style.transition = 'left 0.3s ease';
-            this.navMenu.style.display = 'flex';
+            this.navMenu.style.listStyle = 'none';
             
             console.log('Mobile menu styles applied');
         }
     }
 
+    handleHamburgerClick(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Hamburger clicked!');
+        console.log('Hamburger element dimensions:', {
+            width: this.hamburger.offsetWidth,
+            height: this.hamburger.offsetHeight,
+            display: window.getComputedStyle(this.hamburger).display
+        });
+        this.toggleMobileMenu();
+    }
+
     setupResponsiveHandling() {
         window.addEventListener('resize', () => {
             if (window.innerWidth > 968) {
-                // Desktop view - reset styles
-                if (this.navMenu) {
-                    this.navMenu.style.position = '';
-                    this.navMenu.style.top = '';
-                    this.navMenu.style.left = '';
-                    this.navMenu.style.width = '';
-                    this.navMenu.style.height = '';
-                    this.navMenu.style.backgroundColor = '';
-                    this.navMenu.style.flexDirection = '';
-                    this.navMenu.style.padding = '';
-                    this.navMenu.style.boxShadow = '';
-                    this.navMenu.style.zIndex = '';
-                    this.navMenu.style.transition = '';
-                    this.navMenu.style.display = '';
-                    this.navMenu.classList.remove('active');
-                }
-                if (this.hamburger) {
-                    this.hamburger.classList.remove('active');
-                }
-                this.isMobileMenuOpen = false;
+                // Desktop view - close menu and reset styles
+                this.closeMobileMenu();
+                this.resetDesktopStyles();
             } else {
-                // Mobile view - apply mobile styles
+                // Mobile view - ensure hamburger is visible and apply mobile styles
+                this.ensureHamburgerVisibility();
                 this.setupMobileMenuStyles();
             }
         });
+    }
+
+    resetDesktopStyles() {
+        if (this.navMenu) {
+            // Reset all mobile-specific styles for desktop
+            this.navMenu.style.position = '';
+            this.navMenu.style.top = '';
+            this.navMenu.style.left = '';
+            this.navMenu.style.width = '';
+            this.navMenu.style.height = '';
+            this.navMenu.style.backgroundColor = '';
+            this.navMenu.style.flexDirection = '';
+            this.navMenu.style.padding = '';
+            this.navMenu.style.boxShadow = '';
+            this.navMenu.style.zIndex = '';
+            this.navMenu.style.transition = '';
+            this.navMenu.style.display = '';
+        }
+        
+        if (this.hamburger) {
+            this.hamburger.style.display = '';
+        }
     }
 
     async navigateToPage(page) {
@@ -189,6 +241,7 @@ export class NavigationController {
     onPageRendered(page, view) {
         console.log(`Setting up page-specific functionality for: ${page}`);
         if (page === 'detector' && window.app && window.app.detectorController) {
+            // Detector-specific functionality
         }
     }
 
@@ -204,7 +257,7 @@ export class NavigationController {
             }
         });
 
-        // Update footer-link classes (optional visual feedback)
+        // Update footer-link classes
         const footerLinks = document.querySelectorAll('.footer-link');
         footerLinks.forEach(link => {
             const page = link.getAttribute('data-page');
@@ -232,7 +285,6 @@ export class NavigationController {
     }
 
     showLoadingIndicator() {
-        // Add smooth fade out transition to current content
         const mainContent = document.getElementById('mainContent');
         if (mainContent) {
             mainContent.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
@@ -242,13 +294,11 @@ export class NavigationController {
     }
 
     hideLoadingIndicator() {
-        // Add smooth fade in transition to new content
         const mainContent = document.getElementById('mainContent');
         if (mainContent) {
             setTimeout(() => {
                 mainContent.style.opacity = '1';
                 mainContent.style.transform = 'translateY(0)';
-                // Remove transition after animation completes
                 setTimeout(() => {
                     mainContent.style.transition = '';
                 }, 300);
@@ -272,53 +322,65 @@ export class NavigationController {
         console.log('toggleMobileMenu called');
         console.log('Current menu state:', this.isMobileMenuOpen);
         
-        if (!this.navMenu) {
-            console.error('navMenu not found!');
+        if (!this.navMenu || !this.hamburger) {
+            console.error('navMenu or hamburger not found!');
             return;
         }
 
         if (this.isMobileMenuOpen) {
             // Close menu
             console.log('Closing mobile menu');
-            this.navMenu.style.left = '-100%';
             this.navMenu.classList.remove('active');
-            if (this.hamburger) this.hamburger.classList.remove('active');
+            this.hamburger.classList.remove('active');
+            this.navMenu.style.left = '-100%';
             this.isMobileMenuOpen = false;
         } else {
             // Open menu
             console.log('Opening mobile menu');
-            this.navMenu.style.left = '0';
             this.navMenu.classList.add('active');
-            if (this.hamburger) this.hamburger.classList.add('active');
+            this.hamburger.classList.add('active');
+            this.navMenu.style.left = '0';
             this.isMobileMenuOpen = true;
+            
+            // Add body scroll lock
+            document.body.style.overflow = 'hidden';
         }
         
         console.log('Menu state after toggle:', this.isMobileMenuOpen);
+        console.log('Menu classes:', this.navMenu.className);
         console.log('Menu left position:', this.navMenu.style.left);
     }
 
     closeMobileMenu() {
         if (this.navMenu) {
-            this.navMenu.style.left = '-100%';
             this.navMenu.classList.remove('active');
+            this.navMenu.style.left = '-100%';
         }
         if (this.hamburger) {
             this.hamburger.classList.remove('active');
         }
         this.isMobileMenuOpen = false;
+        
+        // Remove body scroll lock
+        document.body.style.overflow = '';
     }
 
     getCurrentPage() {
         return this.currentPage;
     }
 
-    // Method to get current view instance
     getCurrentView() {
         return this.viewRenderer.getCurrentView();
     }
 
-    // Method to refresh current page
     async refreshCurrentPage() {
         await this.navigateToPage(this.currentPage);
+    }
+
+    destroy() {
+        if (this.hamburger && this.handleHamburgerClick) {
+            this.hamburger.removeEventListener('click', this.handleHamburgerClick);
+        }
+        this.hamburgerInitialized = false;
     }
 }
