@@ -1096,12 +1096,14 @@ html {
     margin: 0 0 0.5rem 0;
     font-size: 1.5rem;
     font-weight: 600;
+    line-height: 1.3;
 }
 
 .step-subtitle {
     margin: 0;
     opacity: 0.9;
     font-size: 1rem;
+    line-height: 1.4;
 }
 
 .step-content {
@@ -1117,6 +1119,7 @@ html {
     justify-content: center;
     align-items: center;
     min-height: 200px;
+    overflow: hidden;
 }
 
 .step-details p {
@@ -1198,6 +1201,7 @@ html {
     border-radius: 10px;
     text-align: center;
     font-weight: 600;
+    font-size: 0.9rem;
 }
 
 .interpretation-item.low {
@@ -1227,6 +1231,9 @@ html {
     padding: 20px 15px;
     position: relative;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    max-width: 100%;
+    margin: 0 auto;
+    flex-shrink: 0;
 }
 
 .mock-phone::before {
@@ -1249,14 +1256,19 @@ html {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    overflow: hidden;
+    position: relative;
 }
 
 .chat-bubble {
     padding: 10px 15px;
     border-radius: 18px;
-    max-width: 80%;
+    max-width: 75%;
     font-size: 0.85rem;
     line-height: 1.4;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .chat-bubble.received {
@@ -1276,10 +1288,12 @@ html {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+    width: 100%;
 }
 
 .upload-area {
-    width: 250px;
+    width: 100%;
+    max-width: 250px;
     height: 150px;
     border: 3px dashed #667eea;
     border-radius: 15px;
@@ -1307,6 +1321,7 @@ html {
     font-weight: 600;
     text-align: center;
     font-size: 0.9rem;
+    padding: 0 1rem;
 }
 
 .file-preview {
@@ -1317,17 +1332,21 @@ html {
     background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
     border-radius: 10px;
     border: 1px solid #c3e6cb;
+    width: 100%;
+    max-width: 280px;
 }
 
 .file-preview img {
     width: 24px;
     height: 24px;
+    flex-shrink: 0;
 }
 
 .file-info {
     color: #155724;
     font-weight: 600;
     font-size: 0.9rem;
+    word-wrap: break-word;
 }
 
 .result-demo {
@@ -1343,6 +1362,7 @@ html {
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     border: 1px solid #e1e8ed;
+    width: 100%;
 }
 
 .meter-label {
@@ -1382,6 +1402,7 @@ html {
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     border: 1px solid #e1e8ed;
+    width: 100%;
 }
 
 .analysis-item {
@@ -1467,6 +1488,7 @@ html {
     margin-bottom: 0.8rem;
     font-size: 1.2rem;
     font-weight: 600;
+    line-height: 1.3;
 }
 
 .faq-item p {
@@ -1475,44 +1497,188 @@ html {
     margin: 0;
 }
 
-/* Responsive Design */
+/* Responsive Design - Tablet */
+@media (max-width: 992px) {
+    .tutorial-content {
+        padding: 0 20px;
+    }
+    
+    .step-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .step-visual {
+        order: -1;
+        min-height: auto;
+    }
+    
+    .mock-phone {
+        width: 160px;
+        height: 280px;
+    }
+    
+    .upload-area {
+        max-width: 300px;
+        height: 120px;
+    }
+    
+    .interpretation-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Responsive Design - Mobile */
 @media (max-width: 768px) {
     .tutorial-content {
         padding: 0 15px;
     }
     
-    .step-content {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+    .tutorial-steps {
+        margin-bottom: 2rem;
+    }
+    
+    .tutorial-step {
+        margin-bottom: 1.5rem;
+        border-radius: 15px;
     }
     
     .step-header {
         padding: 1.5rem;
+        flex-direction: row;
+        text-align: left;
     }
     
     .step-content {
         padding: 1.5rem;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
     
     .step-number {
-        width: 50px;
-        height: 50px;
-        font-size: 1.5rem;
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
         margin-right: 1rem;
     }
     
     .step-title h3 {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
+        line-height: 1.3;
+    }
+    
+    .step-subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .step-details p {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .step-tips {
+        padding: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .step-tips strong {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .step-tips ul {
+        padding-left: 1rem;
+    }
+    
+    .step-tips li {
+        font-size: 0.9rem;
+        margin-bottom: 0.4rem;
+    }
+    
+    .step-warning {
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .step-interpretation strong {
+        font-size: 1rem;
+        margin-bottom: 0.8rem;
     }
     
     .mock-phone {
-        width: 180px;
-        height: 320px;
+        width: 140px;
+        height: 250px;
+        padding: 12px 8px;
+        margin: 0 auto;
+    }
+    
+    .mock-chat {
+        padding: 8px;
+        gap: 6px;
+        border-radius: 12px;
+    }
+    
+    .chat-bubble {
+        padding: 6px 10px;
+        font-size: 0.7rem;
+        max-width: 70%;
+        border-radius: 12px;
+        min-width: 0;
+        flex-shrink: 1;
     }
     
     .upload-area {
-        width: 220px;
-        height: 130px;
+        width: 100%;
+        max-width: 220px;
+        height: 100px;
+    }
+    
+    .upload-icon {
+        font-size: 2rem;
+        margin-bottom: 0.3rem;
+    }
+    
+    .upload-text {
+        font-size: 0.8rem;
+    }
+    
+    .file-preview {
+        padding: 8px 12px;
+        max-width: 100%;
+    }
+    
+    .file-info {
+        font-size: 0.8rem;
+    }
+    
+    .result-demo {
+        gap: 1rem;
+    }
+    
+    .stress-meter-demo {
+        padding: 1rem;
+    }
+    
+    .meter-label {
+        font-size: 1rem;
+        margin-bottom: 0.8rem;
+    }
+    
+    .meter-bar {
+        height: 10px;
+    }
+    
+    .meter-value {
+        font-size: 0.9rem;
+    }
+    
+    .analysis-demo {
+        padding: 1rem;
+    }
+    
+    .analysis-item {
+        padding: 0.6rem 0;
+        font-size: 0.85rem;
     }
     
     .interpretation-grid {
@@ -1520,10 +1686,224 @@ html {
         gap: 0.8rem;
     }
     
+    .interpretation-item {
+        padding: 0.8rem;
+        font-size: 0.85rem;
+    }
+    
+    .tutorial-actions {
+        margin-top: 2rem;
+        padding: 1.5rem;
+    }
+    
     .demo-btn {
         display: block;
         margin: 0.5rem auto;
-        width: fit-content;
+        width: 100%;
+        max-width: 280px;
+        padding: 12px 20px;
+        font-size: 0.95rem;
+    }
+    
+    .faq-section {
+        margin-top: 3rem;
+        padding-top: 1.5rem;
+    }
+    
+    .faq-item {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .faq-item h4 {
+        font-size: 1.1rem;
+        margin-bottom: 0.6rem;
+    }
+    
+    .faq-item p {
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+}
+
+/* Responsive Design - Small Mobile */
+@media (max-width: 480px) {
+    .tutorial-content {
+        padding: 0 10px;
+    }
+    
+    .step-header {
+        padding: 1rem;
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .step-number {
+        margin-right: 0;
+        margin-bottom: 0.5rem;
+    }
+    
+    .step-content {
+        padding: 1rem;
+        gap: 1rem;
+    }
+    
+    .step-details p {
+        font-size: 0.9rem;
+    }
+    
+    .step-tips {
+        padding: 0.8rem;
+    }
+    
+    .step-tips strong {
+        font-size: 0.9rem;
+    }
+    
+    .step-tips li {
+        font-size: 0.85rem;
+    }
+    
+    .mock-phone {
+        width: 110px;
+        height: 200px;
+        padding: 10px 6px;
+        margin: 0 auto;
+    }
+    
+    .mock-chat {
+        padding: 6px;
+        gap: 4px;
+        border-radius: 10px;
+    }
+    
+    .chat-bubble {
+        padding: 4px 8px;
+        font-size: 0.65rem;
+        max-width: 65%;
+        border-radius: 10px;
+        line-height: 1.3;
+    }
+    
+    .upload-area {
+        max-width: 180px;
+        height: 80px;
+    }
+    
+    .upload-icon {
+        font-size: 1.5rem;
+    }
+    
+    .upload-text {
+        font-size: 0.7rem;
+    }
+    
+    .stress-meter-demo,
+    .analysis-demo {
+        padding: 0.8rem;
+    }
+    
+    .meter-label {
+        font-size: 0.9rem;
+    }
+    
+    .analysis-item {
+        font-size: 0.8rem;
+    }
+    
+    .tutorial-actions {
+        padding: 1rem;
+    }
+    
+    .demo-btn {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .faq-item {
+        padding: 0.8rem;
+    }
+    
+    .faq-item h4 {
+        font-size: 1rem;
+    }
+    
+    .faq-item p {
+        font-size: 0.85rem;
+    }
+}
+
+/* Utility classes for better mobile experience */
+.mobile-center {
+    text-align: center;
+}
+
+.mobile-full-width {
+    width: 100%;
+}
+
+.mobile-hidden {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-center {
+        text-align: center;
+    }
+    
+    .mobile-full-width {
+        width: 100%;
+    }
+    
+    .mobile-hidden {
+        display: none;
+    }
+}
+
+/* Improved touch targets for mobile */
+@media (max-width: 768px) {
+    .tutorial-step:hover {
+        transform: none;
+    }
+    
+    .upload-area:hover {
+        transform: none;
+    }
+    
+    .demo-btn:hover {
+        transform: none;
+    }
+    
+    /* Better touch targets */
+    .demo-btn {
+        min-height: 44px;
+        touch-action: manipulation;
+    }
+    
+    /* Prevent zoom on input focus */
+    input, select, textarea {
+        font-size: 16px;
+    }
+}
+
+/* Scrollbar styling for mobile */
+@media (max-width: 768px) {
+    ::-webkit-scrollbar {
+        width: 3px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: #667eea;
+        border-radius: 3px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: #764ba2;
     }
 }
 
