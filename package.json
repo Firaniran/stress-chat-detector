@@ -8,10 +8,10 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint src --ext js,html --report-unused-disable-directives --max-warnings 0",
-    "serve": "vite preview --port 3001",
-    "dev:cors": "vite --port 3001"
+    "serve": "vite preview --port 3002",
+    "dev:cors": "vite --port 3002"
   },
-  "proxy": "https://web-production-8699.up.railway.app",
+  "proxy": "https://web-production-1151.up.railway.app/predict",
   "devDependencies": {
     "vite": "^5.2.12",
     "eslint": "^9.4.0",

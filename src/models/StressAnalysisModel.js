@@ -2,7 +2,7 @@ import Tesseract from 'tesseract.js';
 
 export class StressAnalysisModel {
     constructor() {
-        this.API_URL = 'https://web-production-8699.up.railway.app/predict';
+        this.API_URL = 'https://web-production-1151.up.railway.app/predict';
         this.tesseractWorker = null;
         this.ocrConfig = {
             lang: 'ind',
@@ -105,9 +105,7 @@ async extractTextFromImage(file) {
      */
 async sendToStressAPI(text) {
     try {
-        const apiUrl = import.meta.env.VITE_API_BASE;
-
-        const response = await fetch(apiUrl, { 
+        const response = await fetch(this.API_URL, { 
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ text: text.substring(0, 1000) }) 
@@ -205,6 +203,44 @@ async sendToStressAPI(text) {
         return recommendations[category][
             Math.floor(Math.random() * recommendations[category].length)
         ];
+    }
+
+    calculateConfidence(stressLevel) {
+        // Simple confidence calculation based on stress level
+        if (stressLevel >= 80 || stressLevel <= 20) {
+            return Math.min(95, 85 + Math.random() * 10);
+        } else if (stressLevel >= 60 || stressLevel <= 40) {
+            return Math.min(85, 75 + Math.random() * 10);
+        } else {
+            return Math.min(75, 65 + Math.random() * 10);
+        }
+    }
+
+    extractKeyPhrases(text) {
+        // Simple key phrase extraction
+        const words = text.toLowerCase().split(/\s+/);
+        const phrases = [];
+        
+        for (let i = 0; i < words.length - 1; i++) {
+            if (words[i].length > 3 && words[i + 1].length > 3) {
+                phrases.push(`${words[i]} ${words[i + 1]}`);
+            }
+        }
+        
+        return phrases.slice(0, 3);
+    }
+
+    assessReadability(text) {
+        const avgWordsPerSentence = text.split(/[.!?]+/).filter(s => s.trim()).length;
+        const avgCharsPerWord = text.replace(/\s+/g, '').length / text.split(/\s+/).length;
+        
+        if (avgWordsPerSentence < 10 && avgCharsPerWord < 6) {
+            return 'Mudah dibaca';
+        } else if (avgWordsPerSentence < 20 && avgCharsPerWord < 8) {
+            return 'Sedang';
+        } else {
+            return 'Sulit dibaca';
+        }
     }
 
     // Error handling

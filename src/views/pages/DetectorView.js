@@ -9,7 +9,7 @@ export class DetectorView {
         this.config = {
             MAX_FILE_SIZE: 5 * 1024 * 1024,
             ALLOWED_TYPES: ['image/jpeg', 'image/jpg', 'image/png'],
-            API_URL: 'https://web-production-8699.up.railway.app/predict'
+            API_URL: 'https://web-production-1151.up.railway.app/predict'
         };
         this.tesseractWorker = null;
     }
@@ -311,7 +311,7 @@ export class DetectorView {
 
 async sendToAPI(text) {
     try {
-        const response = await fetch('/predict', {
+        const response = await fetch(this.config.API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ text: text.substring(0, 1000) })
