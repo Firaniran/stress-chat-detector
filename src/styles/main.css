@@ -69,8 +69,18 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
-    background: #fff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background: transparent; /* Transparan seperti yang diminta */
+    backdrop-filter: blur(10px); /* Efek blur halus */
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    z-index: 100;
+}
+
+/* Logo Styling */
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #007bff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 /* Hamburger Button */
@@ -82,24 +92,26 @@ body {
     cursor: pointer;
     padding: 8px;
     z-index: 1001;
-    background: none;
-    border: none;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
     width: 40px;
     height: 40px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
 }
 
 .hamburger:hover {
-    background-color: rgba(0,0,0,0.05);
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.05);
 }
 
 .hamburger span {
     display: block;
-    width: 25px;
-    height: 3px;
-    background: #333;
-    margin: 3px 0;
+    width: 22px;
+    height: 2px;
+    background: #007bff; /* Biru untuk hamburger lines */
+    margin: 2px 0;
     transition: all 0.3s ease;
     transform-origin: center;
     border-radius: 2px;
@@ -112,25 +124,41 @@ body {
     margin: 0;
     padding: 0;
     transition: all 0.3s ease;
+    background: transparent;
 }
 
 .nav-menu li {
-    margin: 0 1rem;
+    margin: 0 0.5rem;
 }
 
 .nav-link {
     text-decoration: none;
-    color: #333;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
+    color: #007bff; /* Teks biru */
+    padding: 0.75rem 1.25rem;
+    border-radius: 25px; /* Rounded corners */
     transition: all 0.3s ease;
     display: block;
+    font-weight: 500;
+    background: transparent;
+    border: 2px solid transparent;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
-.nav-link:hover,
+.nav-link:hover {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(0,123,255,0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,123,255,0.2);
+}
+
 .nav-link.active {
-    background-color: #007bff;
-    color: white;
+    background: rgba(0,123,255,0.1);
+    backdrop-filter: blur(15px);
+    border: 2px solid rgba(0,123,255,0.4);
+    color: #0056b3;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(0,123,255,0.25);
 }
 
 /* Mobile Styles */
@@ -147,13 +175,15 @@ body {
         width: 80%;
         max-width: 300px;
         height: 100vh;
-        background: #fff;
+        background: rgba(255,255,255,0.95); /* Semi transparan untuk mobile menu */
+        backdrop-filter: blur(20px);
         flex-direction: column;
         padding: 80px 20px 20px;
-        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        box-shadow: 2px 0 20px rgba(0,0,0,0.15);
         z-index: 1000;
         transition: left 0.3s ease;
         overflow-y: auto;
+        border-right: 1px solid rgba(0,123,255,0.2);
     }
     
     .nav-menu.active {
@@ -161,20 +191,41 @@ body {
     }
     
     .nav-menu li {
-        margin: 0.5rem 0;
+        margin: 0.75rem 0;
         width: 100%;
     }
     
     .nav-link {
-        padding: 1rem;
-        border-bottom: 1px solid #f0f0f0;
+        padding: 1rem 1.5rem;
         width: 100%;
         text-align: left;
+        border-radius: 12px;
+        margin-bottom: 0.5rem;
+        background: rgba(255,255,255,0.1);
+        border: 1px solid rgba(0,123,255,0.1);
+    }
+    
+    .nav-link:hover {
+        background: rgba(0,123,255,0.1);
+        transform: translateX(5px);
+        border: 1px solid rgba(0,123,255,0.3);
+    }
+    
+    .nav-link.active {
+        background: rgba(0,123,255,0.15);
+        border: 1px solid rgba(0,123,255,0.4);
+        color: #0056b3;
     }
     
     /* Hamburger Animation */
+    .hamburger.active {
+        background: rgba(0,123,255,0.2);
+        border-color: rgba(0,123,255,0.4);
+    }
+    
     .hamburger.active span:nth-child(1) {
-        transform: translateY(9px) rotate(45deg);
+        transform: translateY(6px) rotate(45deg);
+        background: #0056b3;
     }
     
     .hamburger.active span:nth-child(2) {
@@ -183,7 +234,8 @@ body {
     }
     
     .hamburger.active span:nth-child(3) {
-        transform: translateY(-9px) rotate(-45deg);
+        transform: translateY(-6px) rotate(-45deg);
+        background: #0056b3;
     }
     
     /* Overlay for mobile menu */
@@ -194,10 +246,62 @@ body {
         left: 100%;
         width: 100vw;
         height: 100vh;
-        background: rgba(0,0,0,0.5);
+        background: rgba(0,0,0,0.4);
         z-index: -1;
+        backdrop-filter: blur(2px);
     }
 }
+
+/* Alternative Color Schemes - uncomment salah satu jika mau ganti warna */
+
+/* Purple Theme - matching dengan background */
+/*
+.nav-link {
+    color: #6f42c1;
+}
+.nav-link:hover {
+    border-color: rgba(111,66,193,0.3);
+    box-shadow: 0 4px 12px rgba(111,66,193,0.2);
+}
+.nav-link.active {
+    background: rgba(111,66,193,0.1);
+    border-color: rgba(111,66,193,0.4);
+    color: #5a2d91;
+}
+*/
+
+/* Teal Theme - kontras bagus dengan purple */
+/*
+.nav-link {
+    color: #20c997;
+}
+.nav-link:hover {
+    border-color: rgba(32,201,151,0.3);
+    box-shadow: 0 4px 12px rgba(32,201,151,0.2);
+}
+.nav-link.active {
+    background: rgba(32,201,151,0.1);
+    border-color: rgba(32,201,151,0.4);
+    color: #1aa179;
+}
+*/
+
+/* White Theme - clean dan elegan */
+/*
+.nav-link {
+    color: white;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+.nav-link:hover {
+    background: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.4);
+}
+.nav-link.active {
+    background: rgba(255,255,255,0.25);
+    border-color: rgba(255,255,255,0.5);
+    color: #f8f9fa;
+}
+*/
 
 /* Ensure hamburger is visible on small screens */
 @media (max-width: 768px) {
@@ -219,6 +323,19 @@ body {
     .nav-menu {
         width: 90%;
         padding: 70px 15px 15px;
+    }
+}
+
+/* Smooth scroll behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Additional glass effect for better integration */
+@supports (backdrop-filter: blur(10px)) {
+    .header {
+        backdrop-filter: blur(15px);
+        border-bottom: 1px solid rgba(255,255,255,0.2);
     }
 }
 
