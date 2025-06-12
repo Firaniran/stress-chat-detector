@@ -27,8 +27,8 @@ export class TutorialView {
                                     <div class="mock-phone">
                                         <div class="mock-chat">
                                             <div class="chat-bubble received">Gimana kabar?</div>
-                                            <div class="chat-bubble sent">Besok deadline, stress tau</div>
-                                            <div class="chat-bubble received">Semangat! 💪</div>
+                                            <div class="chat-bubble sent">Besok deadline stress tau</div>
+                                            <div class="chat-bubble received">Bisa yok! 💪</div>
                                             <div class="chat-bubble sent">Capek...</div>
                                         </div>
                                     </div>
