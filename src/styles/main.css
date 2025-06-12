@@ -79,7 +79,7 @@ body {
 .logo {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #007bff;
+    color: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
@@ -156,7 +156,7 @@ body {
     background: rgba(0,123,255,0.1);
     backdrop-filter: blur(15px);
     border: 2px solid rgba(0,123,255,0.4);
-    color: #0056b3;
+    color: #764ba2;
     font-weight: 600;
     box-shadow: 0 4px 15px rgba(0,123,255,0.25);
 }
