@@ -6,7 +6,7 @@ export default defineConfig({
     port: 3002,
     proxy: {
       '/predict': {
-        target: 'https://web-production-1151.up.railway.app/predict',
+        target: 'https://web-production-1151.up.railway.app',
         changeOrigin: true,
         secure: false,
       }
