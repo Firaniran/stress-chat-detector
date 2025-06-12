@@ -1,0 +1,52 @@
+{
+  "name": "stress-chat-detector",
+  "version": "1.0.0",
+  "description": "AI-powered stress detection in chat conversations",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src --ext js,html --report-unused-disable-directives --max-warnings 0",
+    "serve": "vite preview --port 3001",
+    "dev:cors": "vite --port 3001"
+  },
+  "proxy": "https://web-production-8699.up.railway.app",
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "eslint": "^8.55.0",
+    "eslint-plugin-html": "^7.1.0",
+    "@vitejs/plugin-basic-ssl": "^1.0.1"
+  },
+  "dependencies": {
+    "tesseract.js": "^5.0.0",
+    "axios": "^1.6.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1"
+  },
+  "keywords": [
+    "stress-detection",
+    "ai",
+    "chat-analysis",
+    "mental-health",
+    "nlp",
+    "machine-learning"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
